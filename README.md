@@ -2,7 +2,7 @@
 
 # REQUIRES Android API 33 or newer
 
-#DISCLAIMER: this app uses data copied from https://kakzovut.ru/ portal (names and etymology). Author of this app no claims towards it. All info taken from this portal is and to be used strictly in educational purposes.
+#DISCLAIMER: this app uses data copied from https://kakzovut.ru/ portal (names and etymology). Author of this app hold no claims towards this data. All info taken from this portal is and to be used strictly in educational purposes.
 
 
 A simple app with two dynamic fragments in container.
