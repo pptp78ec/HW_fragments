@@ -10,7 +10,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.GridView
+import android.widget.ListView
 import android.widget.TextView
+import androidx.lifecycle.viewmodel.viewModelFactory
 import java.util.Locale
 
 
@@ -52,13 +54,11 @@ class Fragment_gridview : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val grid = view.findViewById<GridView>(R.id.grid)
-        val adapter = object : ArrayAdapter<String>(this.requireActivity(), R.layout.grid_item) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                return super.getView(position, convertView, parent)
-                
-            }
-        }
+        val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
+
         grid.adapter = adapter
+        adapter.notifyDataSetChanged()
+
 
         grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -83,5 +83,19 @@ class Fragment_gridview : Fragment() {
         }
 
     }
+    class GridAdapter(
+         val context1: Context,
+        private val resource: Int,
+        var objects: MutableList<NameInfo>
+    ) : ArrayAdapter<NameInfo>(context1, resource, objects) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            var localConvertView = convertView
+            localConvertView = LayoutInflater.from(context1).inflate(resource, parent, false)
+            val model = objects[position]
+            localConvertView?.findViewById<TextView>(R.id.griditem_name)?.text = model?.name
+            return  localConvertView!!
+        }
+    }
+
 
 }
