@@ -48,18 +48,11 @@ class Fragment_gridview : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gridview, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view =  inflater.inflate(R.layout.fragment_gridview, container, false)
         val grid = view.findViewById<GridView>(R.id.grid)
         val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
 
         grid.adapter = adapter
-        adapter.notifyDataSetChanged()
-
-
         grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -81,6 +74,41 @@ class Fragment_gridview : Fragment() {
 
 
         }
+
+        return view
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        val grid = view.findViewById<GridView>(R.id.grid)
+//        val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
+//
+//        grid.adapter = adapter
+//        adapter.notifyDataSetChanged()
+
+
+//        grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val name = (parent?.getItemAtPosition(position) as TextView).text.toString()
+//                val namenfo =
+//                    names.find { nameInfo -> nameInfo.name.toLowerCase() == name.toLowerCase() }
+//                if (namenfo != null) {
+//                    dataPasser?.onPassData(namenfo)
+//                }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//            }
+//
+//
+//        }
 
     }
     class GridAdapter(
