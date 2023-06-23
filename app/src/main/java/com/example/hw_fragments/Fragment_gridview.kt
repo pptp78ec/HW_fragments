@@ -55,7 +55,7 @@ class Fragment_gridview : Fragment() {
         val adapter = object : ArrayAdapter<String>(this.requireActivity(), R.layout.grid_item) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 return super.getView(position, convertView, parent)
-
+                
             }
         }
         grid.adapter = adapter
@@ -84,20 +84,4 @@ class Fragment_gridview : Fragment() {
 
     }
 
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Fragment_gridview.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Fragment_gridview()
-
-    }
 }

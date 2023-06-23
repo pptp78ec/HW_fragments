@@ -3,8 +3,10 @@ package com.example.hw_fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,7 +19,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class Fragment_Details : Fragment() {
-
+        var nameInfo :NameInfo? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,23 +34,11 @@ class Fragment_Details : Fragment() {
         return inflater.inflate(R.layout.fragment__details, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Fragment_Details.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Fragment_Details().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    fun setData (nameInfo: NameInfo){
+        this.nameInfo = nameInfo
+        view?.findViewById<TextView>(R.id.name)?.text = nameInfo.name
+        view?.findViewById<TextView>(R.id.namesakedate)?.text = nameInfo.dates
+        view?.findViewById<TextView>(R.id.description)?.text = nameInfo.description
     }
+
 }
