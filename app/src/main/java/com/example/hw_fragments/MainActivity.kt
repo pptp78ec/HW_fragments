@@ -16,8 +16,9 @@ class MainActivity : AppCompatActivity(), Fragment_gridview.IDataPass {
     }
 
     override fun onPassData(data: NameInfo) {
-        val fragment = supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, Fragment_Details::class.java, null).commit()
-        (supportFragmentManager.findFragmentById(R.id.fragment_container_view) as Fragment_Details).setData(data)
+        val bundle = Bundle()
+        bundle.putSerializable("nameinfo", data)
+        val fragment = supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, Fragment_Details::class.java, bundle).commit()
     }
 
 }

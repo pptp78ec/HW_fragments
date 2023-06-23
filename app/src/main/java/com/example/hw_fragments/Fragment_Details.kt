@@ -24,6 +24,7 @@ class Fragment_Details : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        nameInfo = arguments?.getSerializable("nameinfo") as NameInfo
     }
 
     override fun onCreateView(
@@ -32,10 +33,15 @@ class Fragment_Details : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment__details, container, false)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setData(nameInfo!!)
     }
 
     fun setData (nameInfo: NameInfo){
-        this.nameInfo = nameInfo
         view?.findViewById<TextView>(R.id.name)?.text = nameInfo.name
         view?.findViewById<TextView>(R.id.namesakedate)?.text = nameInfo.dates
         view?.findViewById<TextView>(R.id.description)?.text = nameInfo.description

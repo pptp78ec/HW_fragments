@@ -2,18 +2,14 @@ package com.example.hw_fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.GridView
-import android.widget.ListView
 import android.widget.TextView
-import androidx.lifecycle.viewmodel.viewModelFactory
-import java.util.Locale
+import androidx.fragment.app.Fragment
 
 
 /**
@@ -33,7 +29,7 @@ class Fragment_gridview : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        names = NameInfo.buildArray().toMutableList()
 
     }
 
@@ -53,34 +49,50 @@ class Fragment_gridview : Fragment() {
         val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
 
         grid.adapter = adapter
-        grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
+        grid.onItemClickListener  = object :AdapterView.OnItemClickListener {
+            override fun onItemClick(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                val name = (parent?.getItemAtPosition(position) as TextView).text.toString()
+                val name = parent?.getItemAtPosition(position)
                 val namenfo =
-                    names.find { nameInfo -> nameInfo.name.toLowerCase() == name.toLowerCase() }
+                    names.find { nameInfo -> nameInfo.name.toLowerCase() == (name as NameInfo).name.toLowerCase() }
                 if (namenfo != null) {
                     dataPasser?.onPassData(namenfo)
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-
         }
+//        grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val name = (parent?.getItemAtPosition(position) as TextView).text.toString()
+//                val namenfo =
+//                    names.find { nameInfo -> nameInfo.name.toLowerCase() == name.toLowerCase() }
+//                if (namenfo != null) {
+//                    dataPasser?.onPassData(namenfo)
+//                }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//            }
+//
+//
+//        }
 
         return view
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
 //        val grid = view.findViewById<GridView>(R.id.grid)
 //        val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
 //
@@ -110,7 +122,7 @@ class Fragment_gridview : Fragment() {
 //
 //        }
 
-    }
+ //   }
     class GridAdapter(
          val context1: Context,
         private val resource: Int,
