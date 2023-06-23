@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentContainerView
 
 class MainActivity : AppCompatActivity(), Fragment_gridview.IDataPass {
 
+    var bundleForBack: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,10 +16,18 @@ class MainActivity : AppCompatActivity(), Fragment_gridview.IDataPass {
             .add(R.id.fragment_container_view, Fragment_gridview::class.java, null).commit()
     }
 
-    override fun onPassData(data: NameInfo) {
-        val bundle = Bundle()
-        bundle.putSerializable("nameinfo", data)
-        val fragment = supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, Fragment_Details::class.java, bundle).commit()
+    override fun onPassData(bundle: Bundle) {
+        bundleForBack = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, Fragment_Details::class.java, bundle).commit()
+
+    }
+
+    override fun onBackPressed() {
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container_view,
+            Fragment_gridview::class.java, bundleForBack
+        ).commit()
     }
 
 }

@@ -22,16 +22,24 @@ class Fragment_gridview : Fragment() {
     var names = mutableListOf<NameInfo>()
 
     interface IDataPass {
-        fun onPassData(data: NameInfo)
+        fun onPassData(bundle: Bundle)
     }
 
     var dataPasser: IDataPass? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        names = NameInfo.buildArray().toMutableList()
-
+        if(arguments?.containsKey("savedarray") == true && !(arguments?.getSerializable("savedarray") as Array<NameInfo>).isNullOrEmpty()){
+            names = (arguments?.getSerializable("savedarray") as Array<NameInfo>).toMutableList()
+        }
+        else {
+            NameInfo.buildArray().also {
+                it.shuffle()
+                names = it.take(16).toMutableList()
+            }
+        }
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,12 +52,12 @@ class Fragment_gridview : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_gridview, container, false)
+        val view = inflater.inflate(R.layout.fragment_gridview, container, false)
         val grid = view.findViewById<GridView>(R.id.grid)
         val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
 
         grid.adapter = adapter
-        grid.onItemClickListener  = object :AdapterView.OnItemClickListener {
+        grid.onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -60,71 +68,24 @@ class Fragment_gridview : Fragment() {
                 val namenfo =
                     names.find { nameInfo -> nameInfo.name.toLowerCase() == (name as NameInfo).name.toLowerCase() }
                 if (namenfo != null) {
-                    dataPasser?.onPassData(namenfo)
+                    val bundle = Bundle().also {
+                        it.putSerializable("passNameIndo", namenfo)
+                        it.putSerializable("savedarray", names.toTypedArray())
+                    }
+                    dataPasser?.onPassData(bundle)
                 }
             }
 
         }
-//        grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                val name = (parent?.getItemAtPosition(position) as TextView).text.toString()
-//                val namenfo =
-//                    names.find { nameInfo -> nameInfo.name.toLowerCase() == name.toLowerCase() }
-//                if (namenfo != null) {
-//                    dataPasser?.onPassData(namenfo)
-//                }
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//
-//
-//        }
+
 
         return view
 
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        val grid = view.findViewById<GridView>(R.id.grid)
-//        val adapter = GridAdapter(this.requireContext(), R.layout.grid_item, names)
-//
-//        grid.adapter = adapter
-//        adapter.notifyDataSetChanged()
 
-
-//        grid.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                val name = (parent?.getItemAtPosition(position) as TextView).text.toString()
-//                val namenfo =
-//                    names.find { nameInfo -> nameInfo.name.toLowerCase() == name.toLowerCase() }
-//                if (namenfo != null) {
-//                    dataPasser?.onPassData(namenfo)
-//                }
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//
-//
-//        }
-
- //   }
     class GridAdapter(
-         val context1: Context,
+        val context1: Context,
         private val resource: Int,
         var objects: MutableList<NameInfo>
     ) : ArrayAdapter<NameInfo>(context1, resource, objects) {
@@ -133,7 +94,7 @@ class Fragment_gridview : Fragment() {
             localConvertView = LayoutInflater.from(context1).inflate(resource, parent, false)
             val model = objects[position]
             localConvertView?.findViewById<TextView>(R.id.griditem_name)?.text = model?.name
-            return  localConvertView!!
+            return localConvertView!!
         }
     }
 

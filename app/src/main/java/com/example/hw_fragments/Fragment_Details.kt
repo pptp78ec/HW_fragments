@@ -24,7 +24,7 @@ class Fragment_Details : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        nameInfo = arguments?.getSerializable("nameinfo") as NameInfo
+        nameInfo = arguments?.getSerializable("passNameIndo") as NameInfo
     }
 
     override fun onCreateView(
